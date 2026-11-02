@@ -1,0 +1,13 @@
+node_modules/
+.env
+.env.*
+!.env.example
+.vercel/
+*.log
+.DS_Store
+.vscode/
+__pycache__/
+.venv/
+venv/
+# raw landmark recordings (large, regenerable); commit exported model JSON instead
+data/raw/
