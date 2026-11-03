@@ -1,0 +1,244 @@
+{
+  "synthetic": false,
+  "caveat": "Held-out accuracy here measures consistency of ONE hearing signer's own signing across recording sessions. It is not correctness in KSL and not accuracy for other signers. No sign is verified by a Deaf signer.",
+  "n_clips": 33,
+  "sessions": [
+    "s-20261103-1546",
+    "s-20261103-1635",
+    "s-20261103-1649"
+  ],
+  "majority_baseline": 0.09090909090909091,
+  "results": {
+    "logreg": {
+      "pooled_accuracy": 0.7878787878787878,
+      "macro_f1": 0.7805194805194805,
+      "per_session_accuracy": {
+        "s-20261103-1546": 0.7272727272727273,
+        "s-20261103-1635": 0.6363636363636364,
+        "s-20261103-1649": 1.0
+      },
+      "confused_pairs": [
+        {
+          "n": 2,
+          "a": "mother",
+          "b": "send",
+          "a_as_b": 0,
+          "b_as_a": 2,
+          "a_total": 3,
+          "b_total": 3
+        },
+        {
+          "n": 1,
+          "a": "mother",
+          "b": "yes",
+          "a_as_b": 1,
+          "b_as_a": 0,
+          "a_total": 3,
+          "b_total": 3
+        },
+        {
+          "n": 1,
+          "a": "me",
+          "b": "yes",
+          "a_as_b": 0,
+          "b_as_a": 1,
+          "a_total": 3,
+          "b_total": 3
+        },
+        {
+          "n": 1,
+          "a": "me",
+          "b": "rest",
+          "a_as_b": 1,
+          "b_as_a": 0,
+          "a_total": 3,
+          "b_total": 3
+        },
+        {
+          "n": 1,
+          "a": "help",
+          "b": "money",
+          "a_as_b": 0,
+          "b_as_a": 1,
+          "a_total": 3,
+          "b_total": 3
+        },
+        {
+          "n": 1,
+          "a": "give",
+          "b": "money",
+          "a_as_b": 1,
+          "b_as_a": 0,
+          "a_total": 3,
+          "b_total": 3
+        }
+      ]
+    },
+    "knn": {
+      "pooled_accuracy": 0.36363636363636365,
+      "macro_f1": 0.3513052603961695,
+      "per_session_accuracy": {
+        "s-20261103-1546": 0.36363636363636365,
+        "s-20261103-1635": 0.2727272727272727,
+        "s-20261103-1649": 0.45454545454545453
+      },
+      "confused_pairs": [
+        {
+          "n": 4,
+          "a": "me",
+          "b": "rest",
+          "a_as_b": 1,
+          "b_as_a": 3,
+          "a_total": 3,
+          "b_total": 3
+        },
+        {
+          "n": 2,
+          "a": "me",
+          "b": "yes",
+          "a_as_b": 0,
+          "b_as_a": 2,
+          "a_total": 3,
+          "b_total": 3
+        },
+        {
+          "n": 2,
+          "a": "help",
+          "b": "me",
+          "a_as_b": 1,
+          "b_as_a": 1,
+          "a_total": 3,
+          "b_total": 3
+        },
+        {
+          "n": 1,
+          "a": "rest",
+          "b": "thank_you",
+          "a_as_b": 0,
+          "b_as_a": 1,
+          "a_total": 3,
+          "b_total": 3
+        },
+        {
+          "n": 1,
+          "a": "rest",
+          "b": "send",
+          "a_as_b": 0,
+          "b_as_a": 1,
+          "a_total": 3,
+          "b_total": 3
+        },
+        {
+          "n": 1,
+          "a": "mother",
+          "b": "yes",
+          "a_as_b": 1,
+          "b_as_a": 0,
+          "a_total": 3,
+          "b_total": 3
+        },
+        {
+          "n": 1,
+          "a": "mother",
+          "b": "send",
+          "a_as_b": 0,
+          "b_as_a": 1,
+          "a_total": 3,
+          "b_total": 3
+        },
+        {
+          "n": 1,
+          "a": "mother",
+          "b": "rest",
+          "a_as_b": 1,
+          "b_as_a": 0,
+          "a_total": 3,
+          "b_total": 3
+        },
+        {
+          "n": 1,
+          "a": "me",
+          "b": "mother",
+          "a_as_b": 0,
+          "b_as_a": 1,
+          "a_total": 3,
+          "b_total": 3
+        },
+        {
+          "n": 1,
+          "a": "how_much",
+          "b": "thank_you",
+          "a_as_b": 1,
+          "b_as_a": 0,
+          "a_total": 3,
+          "b_total": 3
+        }
+      ]
+    },
+    "random_forest": {
+      "pooled_accuracy": 0.8181818181818182,
+      "macro_f1": 0.8233766233766233,
+      "per_session_accuracy": {
+        "s-20261103-1546": 0.7272727272727273,
+        "s-20261103-1635": 0.7272727272727273,
+        "s-20261103-1649": 1.0
+      },
+      "confused_pairs": [
+        {
+          "n": 1,
+          "a": "rest",
+          "b": "yes",
+          "a_as_b": 0,
+          "b_as_a": 1,
+          "a_total": 3,
+          "b_total": 3
+        },
+        {
+          "n": 1,
+          "a": "mother",
+          "b": "send",
+          "a_as_b": 0,
+          "b_as_a": 1,
+          "a_total": 3,
+          "b_total": 3
+        },
+        {
+          "n": 1,
+          "a": "mother",
+          "b": "rest",
+          "a_as_b": 1,
+          "b_as_a": 0,
+          "a_total": 3,
+          "b_total": 3
+        },
+        {
+          "n": 1,
+          "a": "me",
+          "b": "rest",
+          "a_as_b": 1,
+          "b_as_a": 0,
+          "a_total": 3,
+          "b_total": 3
+        },
+        {
+          "n": 1,
+          "a": "help",
+          "b": "money",
+          "a_as_b": 0,
+          "b_as_a": 1,
+          "a_total": 3,
+          "b_total": 3
+        },
+        {
+          "n": 1,
+          "a": "give",
+          "b": "money",
+          "a_as_b": 1,
+          "b_as_a": 0,
+          "a_total": 3,
+          "b_total": 3
+        }
+      ]
+    }
+  }
+}
