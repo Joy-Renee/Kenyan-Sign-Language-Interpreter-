@@ -4,7 +4,7 @@ import { parseModelOutput } from './validate.js';
 export const MODEL = process.env.META_MODEL || 'muse-spark-1.3';
 
 // Fixed prefix + short suffix keeps input tokens small and cache-friendly.
-// If the vocabulary changes in Phase 1, update the examples to use real tokens.
+// Examples use tokens from public/shared/vocab.js; keep them in sync if the vocabulary changes.
 const PREFIX = [
   'You turn a sequence of sign-language gloss tokens into ONE short, natural sentence.',
   'Context: a Deaf customer is speaking to a mobile money agent in Kenya (simulated demo).',
@@ -16,7 +16,7 @@ const PREFIX = [
   'Examples:',
   'tokens: me send money mother | keys: en,sw -> {"en":"I want to send money to my mother.","sw":"Nataka kutuma pesa kwa mama yangu."}',
   'tokens: how_much | keys: en -> {"en":"How much is it?"}',
-  'tokens: me withdraw money | keys: sw -> {"sw":"Nataka kutoa pesa."}',
+  'tokens: thank_you | keys: sw -> {"sw":"Asante."}',
   'tokens: help me | keys: en,sw -> {"en":"Please help me.","sw":"Tafadhali nisaidie."}',
 ].join('\n');
 

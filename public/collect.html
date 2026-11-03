@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KSL landmark collector</title>
+<style>
+  :root { color-scheme: light dark; font-family: system-ui, sans-serif; }
+  body { margin: 0; padding: 12px; max-width: 1100px; margin-inline: auto; }
+  h1 { font-size: 1.1rem; margin: 0 0 8px; }
+  .row { display: flex; gap: 16px; flex-wrap: wrap; }
+  .cam { position: relative; width: 480px; max-width: 100%; }
+  video, canvas { width: 100%; display: block; transform: scaleX(-1); background: #111; border-radius: 6px; }
+  canvas { position: absolute; inset: 0; height: 100%; }
+  .panel { flex: 1; min-width: 300px; }
+  label { display: block; font-size: .85rem; margin: 6px 0 2px; }
+  input[type=text] { width: 100%; box-sizing: border-box; padding: 6px; }
+  table { border-collapse: collapse; width: 100%; font-size: .85rem; margin-top: 8px; }
+  td, th { border-bottom: 1px solid #8884; padding: 3px 6px; text-align: left; }
+  tr.sel { background: #3b82f633; font-weight: 600; }
+  tr.cls { cursor: pointer; }
+  button { padding: 8px 12px; margin: 6px 6px 0 0; }
+  #rec { font-size: 1rem; }
+  #rec.on { background: #dc2626; color: #fff; }
+  #status { margin: 8px 0; min-height: 1.4em; font-weight: 600; }
+  .warn { font-size: .8rem; opacity: .85; margin-top: 8px; }
+</style>
+</head>
+<body>
+<h1>KSL landmark collector <small>(landmarks only; no video is saved)</small></h1>
+<div class="row">
+  <div class="cam">
+    <video id="video" playsinline muted></video>
+    <canvas id="overlay"></canvas>
+  </div>
+  <div class="panel">
+    <label for="session">Session id (one sitting: same lighting, distance, time)</label>
+    <input type="text" id="session">
+    <label for="note">Session note (lighting / distance / which hand)</label>
+    <input type="text" id="note" placeholder="e.g. desk lamp, 60 cm, right hand">
+    <div id="status">Loading models…</div>
+    <button id="rec">Hold to record (or hold Space)</button>
+    <button id="undo">Delete last clip (Backspace)</button>
+    <button id="dl">Download this session (.json)</button>
+    <table id="counts"></table>
+    <p class="warn">
+      Keys: 1–9, 0 = sign in table order, R = rest. Hold Space while signing, release when done.
+      Rest = hands down or idle in view. Record at least 3 separate sessions (different lighting/distance/time)
+      so held-out accuracy is meaningful. Use the same dominant hand throughout. Download after every session;
+      clips are also kept in this browser (IndexedDB) but clearing site data deletes them.
+      All signs are reference-matched only and unverified by a Deaf signer.
+    </p>
+  </div>
+</div>
+<script type="module" src="./collect.js"></script>
+</body>
+</html>

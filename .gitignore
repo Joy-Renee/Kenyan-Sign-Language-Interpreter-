@@ -11,3 +11,6 @@ __pycache__/
 venv/
 # raw landmark recordings (large, regenerable); commit exported model JSON instead
 data/raw/
+
+# Phase 2: synthetic pipeline-test data (never commit, never quote)
+training/synthetic/

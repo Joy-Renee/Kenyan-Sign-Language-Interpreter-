@@ -15,8 +15,8 @@ test('single-language output only has that key', () => {
   assert.equal('sw' in r, false);
 });
 test('unmatched sequence falls back to literal gloss and is flagged', () => {
-  const r = fallbackSentence(['you', 'mother'], 'en');
-  assert.equal(r.en, 'You my mother.');
+  const r = fallbackSentence(['money', 'mother'], 'en');
+  assert.equal(r.en, 'Money my mother.');
   assert.equal(r.lowConfidence, true);
 });
 test('every vocab token alone yields a string without throwing', () => {
