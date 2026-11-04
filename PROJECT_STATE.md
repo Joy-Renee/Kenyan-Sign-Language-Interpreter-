@@ -1,5 +1,5 @@
 # PROJECT_STATE
-Last updated: Wed 4 Nov 2026, Nairobi (end of Phase 7: 2:50 video script + shot list written in `docs/video-script.md`; live app deployed and reported working by me; video NOT recorded yet; Phase 6 multi-person test protocol/results and README Limitations section still outstanding; model NOT retrained, by decision)
+Last updated: Wed 4 Nov 2026, Nairobi (end of Phase 8: README rewritten, submission text + final checklist drafted in `docs/submission.md` / `docs/final-checklist.md`; live app at kenyan-sign-language-interpreter.vercel.app reported working; video NOT recorded and no video link pasted yet; Phase 6 multi-person testing still not run; model NOT retrained, by decision)
 Working style: concept first (max 10 lines), then build everything without more questions, end each phase with Built / Not built / Needs my action, then update this file. Don't overstate anything.
 
 ## Done (built and working)
@@ -41,7 +41,13 @@ Working style: concept first (max 10 lines), then build everything without more 
 - Visual refresh (after Phase 7, 4 Nov): `public/index.html` restyled only — gradient header with KSL mark, card layout, larger sign/caption type, clearer status pill, buttons/badges/chips, focus states, dark-mode tokens, reduced-motion support. No IDs or behaviour changed. Verified: `npm test` 13/13 and the page served locally with the new markup; visual click-through in a browser still to be confirmed by me.
 
 ## Phase 6 status (not completed)
-- Multi-person/lighting test protocol, failure analysis and README "Limitations and validation" section were scoped but are NOT in the repo: `README.md` still has the Phase 0 status table and no Limitations section. No other-person testing has happened. Nothing about validation may claim otherwise.
+- Multi-person/lighting test protocol, failure analysis were scoped but are NOT in the repo. No other-person testing has happened. Nothing about validation may claim otherwise. (The README now carries a "Limitations and validation" section stating exactly this.)
+
+## Phase 8 (written 4 Nov)
+- `README.md` rewritten: problem, live link, [VIDEO LINK placeholder — not yet pasted], mermaid architecture diagram, Meta table (only Muse Spark `muse-spark-1.3` via Meta Model API; `muse-wonder-1.0` never called), my trained classifier section, eval table verbatim with caveats, Limitations and validation (no Deaf signer review, one signer/33 clips, Kiswahili self-rating, Phase 6 not run), privacy (landmarks only, no video stored/uploaded, only sign tokens sent), setup/deploy instructions, Built-during-the-hackathon statement. AI-assistance line still `[AUTHOR TO EDIT]`.
+- `docs/submission.md`: name (KSL Assistant), tagline, short description, problem statement, Meta-products and why-Meta text (short versions), links block, honest one-liner, optional X post.
+- `docs/final-checklist.md`: incognito repo test, video public test, phone live-link test, secrets scan of git history, Spend Limit check, truthfulness pass, survey/consent boxes. Secrets scan could not be run from this session (shell tooling unavailable at that moment) — tick it from the checklist.
+- Attachments named for Phase 8 (`submission_page.pdf`, form screenshots, video link) were not visible to the assistant; nothing from them is quoted.
 
 ## Phase 7 (written 4 Nov; video not recorded)
 - `docs/video-script.md`: 2:50 script + shot list. 0:00-0:25 problem (V1), 0:25-1:45 single uncut live demo (ME SEND MONEY MOTHER -> YES -> spoken -> SIMULATED draft -> agent types 500/0712345678 -> YES -> created; HOW-MUCH (first cut if late); MONEY alone -> clarifying question (never cut); THANK-YOU), 1:45-1:50 GitHub commit-history moment under V2, 1:50-2:20 one slide (Meta usage + eval numbers verbatim from `eval/results-table.md`, caveat included), 2:20-2:45 honest scope (V3: 10 signs, 33 clips, hearing student, no Deaf signer review, multi-person testing still to be done), 2:45-2:50 next steps (V4) + live/repo URLs.
@@ -50,7 +56,7 @@ Working style: concept first (max 10 lines), then build everything without more 
 
 ## NOT built
 - (f) stretch: agent speech -> Muse Voice Transcribe -> rewrite. Not started.
-- Still missing: 3-min video (script written, not recorded), README eval table + Limitations section, Phase 6 test protocol/results, submission text.
+- Still missing: 3-min video (script written, not recorded; no video link pasted), Phase 6 test protocol run/results, submission (text drafted, not submitted).
 - Deaf-signer validation; Kiswahili quality check by a second speaker.
 
 ## Decisions (vocabulary, model ids, thresholds, theme)
@@ -157,4 +163,8 @@ Caveats: gold labels and the baseline were written by the same author (an AI ass
 ## Phase 7 — needs from me
 1. Record per `docs/video-script.md`: backups first (replay take, local take), then at least two live takes of the uncut 0:25-1:45 demo; keep the first fully clean take. Read V1-V4 as written; respect the cut rules (drop HOW-MUCH first, never the clarifying question).
 2. Add/correct YouTube captions (V1-V4, app speech incl. Kiswahili, clarifying question); check playback on a phone; publish (unlisted is fine) and put the video URL here.
-3. Still outstanding before submission: Phase 6 test protocol run + failure analysis, README Limitations/eval sections, submission form text. Submit well before 8 PM Nairobi.
+
+## Phase 8 — needs from me (final, before 8 PM Nairobi)
+1. Paste the video URL into `README.md` + `docs/submission.md` [VIDEO LINK] spots; fill the README `AI assistance:` line truthfully.
+2. Work `docs/final-checklist.md` top to bottom: incognito repo/video, phone live-link, secrets scan, Spend Limit, truthfulness pass; set survey + consent boxes to my actual decisions.
+3. Commit and push README/`docs/submission.md`/`docs/final-checklist.md` + this file; confirm the Vercel redeploy succeeds; submit and screenshot the confirmation.
