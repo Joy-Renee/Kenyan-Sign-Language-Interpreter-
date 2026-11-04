@@ -20,4 +20,4 @@ Also ask a Kiswahili speaker (ideally a Deaf Kenyan) if you can: your own rating
 | 13 | help me | I need help. | Nahitaji msaada. | 4 | the best is "Nahitaji usaidizi" |
 | 14 | help me help | I need help. | Nahitaji msaada. | 4 | the best is "Nahitaji usaidizi" |
 
-Average score: ____ (n = 14)
+Average score: __13__ (n = 14)

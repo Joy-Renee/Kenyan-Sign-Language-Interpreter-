@@ -1,5 +1,5 @@
 # PROJECT_STATE
-Last updated: Wed 4 Nov 2026, Nairobi (end of Phase 4 code drop: items (a)-(e) written and unit-tested in sandbox WITHOUT network; nothing of Phase 4 run by me yet; (f) not built; model NOT retrained, by decision)
+Last updated: Wed 4 Nov 2026, Nairobi (end of Phase 4: items (a)-(e) built; I ran them on my machine at http://localhost:3000 via `vercel dev` and report they worked; (f) not built; NOT deployed; model NOT retrained, by decision)
 Working style: concept first (max 10 lines), then build everything without more questions, end each phase with Built / Not built / Needs my action, then update this file. Don't overstate anything.
 
 ## Done (built and working)
@@ -19,7 +19,7 @@ Working style: concept first (max 10 lines), then build everything without more 
 - Live recognition quality with the real model: unknown. Default thresholds are guesses, not tuned.
 - Phase 2 and Phase 3 files may not all be committed yet: check `git status`.
 
-## Phase 4 code (written 4 Nov in sandbox; NOT run against the real API or in a browser)
+## Phase 4 code (written 4 Nov; sandbox-tested without network, then run by me locally: see Phase 4 results)
 - (a) `api/_lib/understand.js` + `api/understand.js` (NEW endpoint; old `api/interpret.js` untouched): fixed prompt + 4 few-shot examples, strict JSON {intent, english, kiswahili, missing_info, clarifying_question, confidence}, validated by `parseInterpretation` (appended to `api/_lib/validate.js`), 1 retry then rule fallback, cache by sign sequence, daily cap counted per model call, JSON log line with usage. `max_output_tokens` raised to 600. Unclear input must return intent `unclear` + a question (validator rejects otherwise).
 - (b) `public/shared/flow.js`: nothing is spoken until the customer signs YES; NO cancels; a lone YES/NO while something waits is a control signal (no model call). Bare YES/NO with nothing pending is treated as a normal utterance that itself needs confirmation.
 - (c) Simulated transaction in `flow.js`: draft after YES on send_money; AGENT TYPES amount and phone (vocabulary has no numerals); customer must sign YES on the final text before status = created. UI shows "SIMULATED: no real money moves". NO tool calling is used: JSON only, transaction logic is deterministic code.
@@ -28,12 +28,11 @@ Working style: concept first (max 10 lines), then build everything without more 
 - (e) `scripts/eval.mjs` (`npm run eval` needs the script added to package.json): 30 sequences, writes `eval/results-table.md`, `eval/results.json`, `eval/kiswahili-rating.md`. Gold labels and the baseline were written by the same AI author: baseline accuracy is NOT evidence of generalisation. Few-shot examples are disjoint from the eval sequences.
 - Tests: `node --test tests/flow.test.js` 5/5 in sandbox (validator, baseline, confirm flow, txn flow). No test touches the network.
 - Kiswahili strings in `intent.js`/prompt were written by the assistant, unreviewed.
-- demo-dialogue.md is now out of date: every utterance needs a following YES, and the amount/phone are typed by the agent.
+- demo-dialogue.md was rewritten for the YES-confirmation flow (utterance -> YES -> spoken; amount/phone typed by the agent; final YES).
 
 ## NOT built
 - (f) stretch: agent speech -> Muse Voice Transcribe -> rewrite. Not started.
-- Phase 4 items still missing: Vercel deploy, 3-min video, README eval table (needs a real `npm run eval`), submission text.
-- (superseded by the Phase 4 section above) demo video, submission text.
+- Still missing: Vercel deploy (only localhost:3000 works), 3-min video, README eval table, submission text.
 - Any real Meta API call from my code (`npm run test:meta` not yet run/reported); Vercel deployment; Deaf-signer validation; Kiswahili quality check.
 - Clarifying-question / bilingual-output strengthening (not committed).
 
@@ -86,6 +85,7 @@ Leave-one-session-out on 33 clips (3 sessions x 11 classes x 1 clip). TOO SMALL 
 - Meta AI tooling (25%) is the weakest rubric area: model only does the sentence step. Possible strengthening (not committed): clarifying question for ambiguous sequences, bilingual output.
 
 ## Next phase needs from me
+0. (Superseded: Phase 4 is done, see "Phase 5 needs from me" at the end.)
 1. Copy the Phase 3 files into the repo (`public/index.html` overwrites the placeholder, `public/app.js`, `public/shared/live.js`, `tests/live.test.js`), run `node --test tests/live.test.js` (expect 13/13). (`npm run test:parity` already reported `# fail 0`.)
 2. Serve `public/` over localhost (e.g. `npx serve public` or `python3 -m http.server -d public`), open `index.html` in the same browser/camera/hand/distance as recording. Try both modes with your 10 signs plus an utterance (e.g. ME, SEND, MONEY, MOTHER, hands down 1.5 s). Send me: the debug panel numbers (FPS, detect ms, classify ms, sign latency), what was recognised vs what you signed, and any console errors.
 3. Record a live stream of a clean utterance with `Record live stream for replay`, download it, save as `public/demo/replay.json`; test `Replay recorded sequence`.
@@ -110,3 +110,31 @@ Leave-one-session-out on 33 clips (3 sessions x 11 classes x 1 clip). TOO SMALL 
 - Bug fixed: element id "dbg" clashed with MediaPipe's internal variable; renamed to "debugbox".
 - test:parity: # fail 0 (reported earlier). test:meta (my run, 4 Nov): OK. Call 1 muse-spark-1.3 6396 ms, 270 tokens (237 reasoning) for a trivial question. Call 2 (sentence prompt, effort minimal) 3234 ms, valid JSON, 408 tokens (118 reasoning). Reasoning tokens stay high even at "minimal"; one call is about 3 s.
 - Still true: one hearing signer, 33 training clips, signs unverified. No accuracy claim.
+
+## Phase 4 results (my own runs, 4 Nov 2026)
+- Reported by me: all Phase 4 steps worked locally at http://localhost:3000 with `vercel dev` (live utterance -> Muse Spark sentence -> sign YES -> spoken -> SIMULATED draft -> agent types amount/phone -> YES -> created; stopping the proxy showed FALLBACK MODE). Console errors: [FILL: none / paste].
+- `node --test tests/flow.test.js`: [5 pass, 0 fails]. `npm test`: [10 pass, 0 fails].
+- `npm run eval` (30 sequences, one run): [Eval: 30 fixed sign sequences, model muse-spark-1.3, one run, effort minimal.
+
+| Metric | Rule-based baseline | Muse Spark (via same code as proxy) |
+|---|---|---|
+| Valid JSON, first try | n/a (no model) | 53% (16/30) |
+| Valid JSON, after 1 retry | n/a | 67% (20/30) |
+| Intent accuracy | 100% (30/30) | 63% (19/30) (model answers only) |
+| Intent accuracy, end to end with fallback | 100% (30/30) | 97% (29/30) |
+| Asked a question on 7 unclear sequences | 100% (7/7) | 71% (5/7) |
+| Latency per utterance (mean / median / p95) | <1 ms | 4654 / 3989 / 7786 ms |
+| Tokens per utterance (input / output / total, incl. retries) | 0 | 661 / 408 / 1070 |
+
+Caveats: gold labels and the baseline were written by the same author (an AI assistant), so the baseline is tuned to this set and its accuracy is not evidence it generalises. One run; model output varies. Sign sequences are idealised, not recognizer output.
+]. Gold labels were written by an AI assistant; reviewed by me: [yes]. Baseline and gold share an author, so baseline accuracy does not show generalisation.
+- Live badge numbers (one machine, one session): latency [4499] ms, tokens [675] per call.
+- Kiswahili self-rating (me, not a validated review): average [13] over [14] sentences. Not reviewed by a Deaf user or a second Kiswahili speaker.
+- Not deployed: no public URL; localhost only. Video not recorded. (f) not built.
+
+## Phase 5 needs from me
+1. Fill the [FILL] lines above from real outputs, then zip the repo (this file is inside the zip; no separate copy needed).
+2. Deploy to Vercel: set MODEL_API_KEY, ALLOWED_ORIGINS, RATE_LIMIT_PER_MIN, DAILY_MODEL_CALL_CAP, LOG_SALT; set a Meta Spend Limit; test the live URL.
+3. Record the video from demo-dialogue.md after 3 live runs of each step; keep a backup recording.
+4. README: scope paragraph, eval table (caveats included), AI-assistance line, "reference-matched, not community-validated; performed by a hearing student".
+5. Submission form text; submit well before 8 PM Nairobi.
