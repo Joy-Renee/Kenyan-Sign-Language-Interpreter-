@@ -1,0 +1,7 @@
+# This is a Node/static deployment (public/ + api/*.js). Python under training/
+# is offline training code only — keep it out of the Vercel build so Vercel
+# does not detect a Python app (PYTHON_ENTRYPOINT_NOT_FOUND).
+training/
+.venv/
+data/
+*.log
