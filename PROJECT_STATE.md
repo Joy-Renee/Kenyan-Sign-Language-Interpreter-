@@ -1,5 +1,5 @@
 # PROJECT_STATE
-Last updated: Wed 4 Nov 2026, Nairobi (end of Phase 5: single-page UI, bilingual TTS, try-without-camera demo, deployment checklist written; NOT browser-tested by me yet, NOT deployed; model NOT retrained, by decision)
+Last updated: Wed 4 Nov 2026, Nairobi (end of Phase 7: 2:50 video script + shot list written in `docs/video-script.md`; live app deployed and reported working by me; video NOT recorded yet; Phase 6 multi-person test protocol/results and README Limitations section still outstanding; model NOT retrained, by decision)
 Working style: concept first (max 10 lines), then build everything without more questions, end each phase with Built / Not built / Needs my action, then update this file. Don't overstate anything.
 
 ## Done (built and working)
@@ -38,12 +38,20 @@ Working style: concept first (max 10 lines), then build everything without more 
 - `scripts/dev-server.mjs` now also mounts `/api/understand` (local `npm run dev` previously only served `/api/interpret`).
 - `vercel.json` added (`outputDirectory: public`, 15 s function cap, nosniff/no-referrer headers). `docs/deployment.md`: Vercel checklist, test-the-live-URL checklist, Cloudflare note (Pages static OK; `api/` handlers need a fetch-style rewrite — not done). Recommended credit guards: `RATE_LIMIT_PER_MIN=10`, `DAILY_MODEL_CALL_CAP=300`, plus a Meta Billing Spend Limit as the only hard cap.
 - Tests: new `tests/speech.test.js` (voice selection, Kiswahili fallback plan, demo sequences use only vocab tokens); added to `npm test`. In-session verification this phase: shell was unavailable to the assistant; reported by me on my machine (4 Nov): `node --check public/app.js && node --check public/assistant.js && npm test && node --test tests/flow.test.js tests/live.test.js` -> 18 tests passed. Browser click-through not yet done.
+- Visual refresh (after Phase 7, 4 Nov): `public/index.html` restyled only — gradient header with KSL mark, card layout, larger sign/caption type, clearer status pill, buttons/badges/chips, focus states, dark-mode tokens, reduced-motion support. No IDs or behaviour changed. Verified: `npm test` 13/13 and the page served locally with the new markup; visual click-through in a browser still to be confirmed by me.
+
+## Phase 6 status (not completed)
+- Multi-person/lighting test protocol, failure analysis and README "Limitations and validation" section were scoped but are NOT in the repo: `README.md` still has the Phase 0 status table and no Limitations section. No other-person testing has happened. Nothing about validation may claim otherwise.
+
+## Phase 7 (written 4 Nov; video not recorded)
+- `docs/video-script.md`: 2:50 script + shot list. 0:00-0:25 problem (V1), 0:25-1:45 single uncut live demo (ME SEND MONEY MOTHER -> YES -> spoken -> SIMULATED draft -> agent types 500/0712345678 -> YES -> created; HOW-MUCH (first cut if late); MONEY alone -> clarifying question (never cut); THANK-YOU), 1:45-1:50 GitHub commit-history moment under V2, 1:50-2:20 one slide (Meta usage + eval numbers verbatim from `eval/results-table.md`, caveat included), 2:20-2:45 honest scope (V3: 10 signs, 33 clips, hearing student, no Deaf signer review, multi-person testing still to be done), 2:45-2:50 next steps (V4) + live/repo URLs.
+- Backup plan recorded before main takes: replay take (must be labelled if used), local `vercel dev` take, two live takes (screen + phone). Captions plan covers V1-V4, app speech (incl. Kiswahili), and the clarifying question; YouTube captions corrected + burned-in if possible.
+- Voice-over is word-for-word in the doc at ~140 wpm. Cut rules and never-say list included. The 0.788 leave-one-session-out number is excluded from the video.
 
 ## NOT built
 - (f) stretch: agent speech -> Muse Voice Transcribe -> rewrite. Not started.
-- Still missing: Vercel deploy (only localhost:3000 works), 3-min video, README eval table, submission text.
-- Any real Meta API call from my code (`npm run test:meta` not yet run/reported); Vercel deployment; Deaf-signer validation; Kiswahili quality check.
-- Clarifying-question / bilingual-output strengthening (not committed).
+- Still missing: 3-min video (script written, not recorded), README eval table + Limitations section, Phase 6 test protocol/results, submission text.
+- Deaf-signer validation; Kiswahili quality check by a second speaker.
 
 ## Decisions (vocabulary, model ids, thresholds, theme)
 - Track: Indie (solo). Theme: Build for Your World. I must not claim to be Deaf or to have firsthand Deaf experience; the firsthand part is the Kenyan mobile-money setting.
@@ -62,7 +70,7 @@ Working style: concept first (max 10 lines), then build everything without more 
 
 ## URLs (repo, live app, proxy, video)
 - Repo: https://github.com/Joy-Renee/Kenyan-Sign-Language-Interpreter-
-- Live app / proxy: not deployed. Video: not recorded.
+- Live app / proxy: https://kenyan-sign-language-interpreter.vercel.app/ (deployed; reported working by me 4 Nov with the Muse Spark badge after env vars + redeploy; initial deploy showed FALLBACK MODE `no_api_key` until `MODEL_API_KEY` was set for Production and redeployed). Video: not recorded.
 - KSL reference source: https://www.ksldictionary.com/dictionary (2015 copyright; not confirmed as endorsed by a Deaf organisation).
 - Candidate organisations (no contact details found): KNAD; KSLIA; KSL Research Project, University of Nairobi.
 
@@ -142,9 +150,11 @@ Caveats: gold labels and the baseline were written by the same author (an AI ass
 - Not deployed: no public URL; localhost only. Video not recorded. (f) not built.
 
 ## After Phase 5 — needs from me
-1. Run locally: `node --check public/app.js public/assistant.js`, `npm test`, `node --test tests/flow.test.js tests/live.test.js` — paste any failures back. Then `vercel dev` (or `npm run dev`) and click through: language toggle both ways, Confirm/Cancel buttons, gloss-demo buttons, Replay, Kiswahili toggle with/without a Swahili voice (note which notice shows).
+1. Run locally: `node --check public/app.js public/assistant.js`, `npm test`, `node --test tests/flow.test.js tests/live.test.js` — paste any failures back. Then `vercel dev` (or `npm run dev`) and click through: language toggle both ways, Confirm/Cancel buttons, gloss-demo buttons, Replay, Kiswahili toggle with/without a Swahili voice (note which notice shows). [Tests done: 18 passed, reported 4 Nov.]
 2. Fill the [FILL] verification lines (Phase 4 above and Phase 5), then zip the repo (this file is inside the zip; no separate copy needed).
-3. Deploy to Vercel per `docs/deployment.md`: set MODEL_API_KEY, ALLOWED_ORIGINS (exact live URL), RATE_LIMIT_PER_MIN=10, DAILY_MODEL_CALL_CAP=300, LOG_SALT; set a Meta Spend Limit; run the test-the-live-URL checklist on the public URL.
-4. Record the video from demo-dialogue.md after 3 live runs of each step; keep a backup recording.
-5. README: scope paragraph, eval table (caveats included), AI-assistance line, "reference-matched, not community-validated; performed by a hearing student".
-6. Submission form text; submit well before 8 PM Nairobi.
+3. Deploy to Vercel per `docs/deployment.md`: set MODEL_API_KEY, ALLOWED_ORIGINS (exact live URL), RATE_LIMIT_PER_MIN=10, DAILY_MODEL_CALL_CAP=300, LOG_SALT; set a Meta Spend Limit; run the test-the-live-URL checklist on the public URL. [Deployed and working 4 Nov; Spend Limit confirmation still to note here.]
+
+## Phase 7 — needs from me
+1. Record per `docs/video-script.md`: backups first (replay take, local take), then at least two live takes of the uncut 0:25-1:45 demo; keep the first fully clean take. Read V1-V4 as written; respect the cut rules (drop HOW-MUCH first, never the clarifying question).
+2. Add/correct YouTube captions (V1-V4, app speech incl. Kiswahili, clarifying question); check playback on a phone; publish (unlisted is fine) and put the video URL here.
+3. Still outstanding before submission: Phase 6 test protocol run + failure analysis, README Limitations/eval sections, submission form text. Submit well before 8 PM Nairobi.
