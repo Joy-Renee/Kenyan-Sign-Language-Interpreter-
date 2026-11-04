@@ -22,7 +22,7 @@ Sign a sentence, lower your hands for about 2 seconds, the app shows its reading
 | 4 | THANK-YOU | "Thank you." / "Asante." | YES -> spoken aloud | "Karibu." |
 | Optional | Sign something unclear (for example MONEY alone) | The app asks a clarifying question instead of guessing | | Show once if time allows |
 
-Only keep a step if the live app produced that behaviour. Model wording may differ slightly; show what it actually says. Speech is English only.
+Only keep a step if the live app produced that behaviour. Model wording may differ slightly; show what it actually says. Speech follows the EN/Kiswahili toggle; if the device has no Kiswahili voice the app speaks English and shows a notice (say so if it happens on camera). Camera fallback if signing fails on the day: "Try without camera" → Replay (recorded landmarks through the real classifier); the gloss-demo buttons bypass recognition and must be described as such if used.
 
 ## Timeline (target 2:50, hard limit 3:00)
 - 0:00-0:20 Problem in two sentences: Deaf Kenyans often have no interpreter at everyday services. Say this is a prototype, not a translator.

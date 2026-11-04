@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "node --env-file=.env scripts/dev-server.mjs",
-    "test": "node --test tests/fallback.test.mjs tests/proxy-lib.test.mjs",
+    "test": "node --test tests/fallback.test.mjs tests/proxy-lib.test.mjs tests/speech.test.js",
     "test:meta": "node --env-file=.env scripts/test-meta-call.mjs",
     "test:proxy": "node scripts/test-proxy.mjs",
     "test:parity": "node --test tests/parity.test.mjs",

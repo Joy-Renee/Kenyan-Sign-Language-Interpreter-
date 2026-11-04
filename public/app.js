@@ -7,6 +7,8 @@ import { VOCAB_INFO } from "./shared/vocab.js";
 import { loadModel } from "./shared/classifier.js";
 import { LiveEngine, DEFAULT_CONFIG, CONFIG_FIELDS } from "./shared/live.js";
 import { createAssistant } from "./assistant.js";
+import { DEMO_SEQUENCES } from "./demo/sequences.js";
+import { t } from "./shared/i18n.js";
 
 const VERSION = "0.10.14";
 const WASM = `https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@${VERSION}/wasm`;
@@ -88,8 +90,27 @@ function handleEvent(type, p) {
     onUtterance(p.items);
   }
 }
-// Hook for the next phase: call the proxy with p.signs here, then show the sentence and speak it.
-const assistant = createAssistant({ after: document.getElementById("sentence") });
+// Language toggle (EN/SW): assistant captions + TTS follow it; proxy returns both languages.
+let uiLang = "en";
+try { uiLang = localStorage.getItem("ksl-lang") === "sw" ? "sw" : "en"; } catch { /* optional */ }
+const assistant = createAssistant({ mount: document.getElementById("assistantMount"), getLang: () => uiLang });
+function applyLang() {
+  document.documentElement.lang = uiLang;
+  $("langEn").setAttribute("aria-pressed", String(uiLang === "en"));
+  $("langSw").setAttribute("aria-pressed", String(uiLang === "sw"));
+  document.querySelectorAll("[data-i18n]").forEach((el) => { el.textContent = t(uiLang, el.dataset.i18n); });
+  try { localStorage.setItem("ksl-lang", uiLang); } catch { /* optional */ }
+  assistant.refresh();
+}
+$("langEn").addEventListener("click", () => { uiLang = "en"; applyLang(); });
+$("langSw").addEventListener("click", () => { uiLang = "sw"; applyLang(); });
+// "Try without camera": recorded gloss sequences straight to the sentence step.
+for (const d of DEMO_SEQUENCES) {
+  const b = document.createElement("button");
+  b.textContent = `Gloss demo: ${d.en} (${d.signs.join(" + ")})`;
+  b.addEventListener("click", () => { setStatus(`Demo mode (no camera, no recognition): sending recorded gloss sequence "${d.signs.join(" ")}" to the sentence step.`); assistant.onUtterance(d.signs); });
+  $("demoSeqs").append(b);
+}
 function onUtterance(items) { assistant.onUtterance(items.map((i) => i.label)); }
 
 // ---------- drawing ----------
@@ -283,6 +304,7 @@ $("stopReplay").addEventListener("click", () => stopReplay("Replay stopped."));
 // ---------- init ----------
 (async () => {
   buildCfgUI();
+  applyLang();
   try {
     model = loadModel(await (await fetch("./models/ksl-linear.json")).json());
     engine = makeEngine(aspect);

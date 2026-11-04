@@ -1,5 +1,5 @@
 # PROJECT_STATE
-Last updated: Wed 4 Nov 2026, Nairobi (end of Phase 4: items (a)-(e) built; I ran them on my machine at http://localhost:3000 via `vercel dev` and report they worked; (f) not built; NOT deployed; model NOT retrained, by decision)
+Last updated: Wed 4 Nov 2026, Nairobi (end of Phase 5: single-page UI, bilingual TTS, try-without-camera demo, deployment checklist written; NOT browser-tested by me yet, NOT deployed; model NOT retrained, by decision)
 Working style: concept first (max 10 lines), then build everything without more questions, end each phase with Built / Not built / Needs my action, then update this file. Don't overstate anything.
 
 ## Done (built and working)
@@ -29,6 +29,15 @@ Working style: concept first (max 10 lines), then build everything without more 
 - Tests: `node --test tests/flow.test.js` 5/5 in sandbox (validator, baseline, confirm flow, txn flow). No test touches the network.
 - Kiswahili strings in `intent.js`/prompt were written by the assistant, unreviewed.
 - demo-dialogue.md was rewritten for the YES-confirmation flow (utterance -> YES -> spoken; amount/phone typed by the agent; final YES).
+
+## Phase 5 code (written 4 Nov; not yet run by me in a browser; not deployed)
+- Single-page responsive UI (`public/index.html` rewritten, Phase 3 IDs kept): header + EN/Kiswahili toggle, camera panel with badge, large current-sign + large caption, sequence chips, Confirm/Cancel buttons (same path as sign YES/NO), SIMULATED transaction card (`SIMULATED: no real money moves`), FALLBACK MODE / Muse Spark badge, small session token counter (tokens + model/fallback call counts), recent utterances, debug/thresholds collapsed at the bottom. Phone-width stacks to one column.
+- `public/assistant.js` rewritten: renders into `#assistantMount`, caption shows the selected language large and the other small, agent amount/phone entry + Cancel transaction, clarifying questions, latency/tokens per call. Proxy request now also sends `lang` (proxy already returns both languages; no proxy contract change).
+- TTS: `public/shared/speech.js` — `selectVoice`/`planSpeech` (pure logic, unit tests written in `tests/speech.test.js`, not yet run) + `speakText`. Kiswahili with no Swahili voice: speaks the English sentence instead of mangling Kiswahili with an English voice, and the UI shows "No Kiswahili voice on this device…". No speechSynthesis at all: caption-only notice. `public/shared/i18n.js` holds EN/SW UI strings (Kiswahili unreviewed, same caveat as before).
+- "Try without camera": Replay (recorded landmarks through the real classifier, as Phase 3) plus gloss-demo buttons from `public/demo/sequences.js` (5 recorded gloss sequences from the demo dialogue) sent straight to the sentence step. Both labelled in-app as demo mode; gloss buttons explicitly do not test recognition.
+- `scripts/dev-server.mjs` now also mounts `/api/understand` (local `npm run dev` previously only served `/api/interpret`).
+- `vercel.json` added (`outputDirectory: public`, 15 s function cap, nosniff/no-referrer headers). `docs/deployment.md`: Vercel checklist, test-the-live-URL checklist, Cloudflare note (Pages static OK; `api/` handlers need a fetch-style rewrite — not done). Recommended credit guards: `RATE_LIMIT_PER_MIN=10`, `DAILY_MODEL_CALL_CAP=300`, plus a Meta Billing Spend Limit as the only hard cap.
+- Tests: new `tests/speech.test.js` (voice selection, Kiswahili fallback plan, demo sequences use only vocab tokens); added to `npm test`. In-session verification this phase: shell was unavailable to the assistant; reported by me on my machine (4 Nov): `node --check public/app.js && node --check public/assistant.js && npm test && node --test tests/flow.test.js tests/live.test.js` -> 18 tests passed. Browser click-through not yet done.
 
 ## NOT built
 - (f) stretch: agent speech -> Muse Voice Transcribe -> rewrite. Not started.
@@ -132,9 +141,10 @@ Caveats: gold labels and the baseline were written by the same author (an AI ass
 - Kiswahili self-rating (me, not a validated review): average [13] over [14] sentences. Not reviewed by a Deaf user or a second Kiswahili speaker.
 - Not deployed: no public URL; localhost only. Video not recorded. (f) not built.
 
-## Phase 5 needs from me
-1. Fill the [FILL] lines above from real outputs, then zip the repo (this file is inside the zip; no separate copy needed).
-2. Deploy to Vercel: set MODEL_API_KEY, ALLOWED_ORIGINS, RATE_LIMIT_PER_MIN, DAILY_MODEL_CALL_CAP, LOG_SALT; set a Meta Spend Limit; test the live URL.
-3. Record the video from demo-dialogue.md after 3 live runs of each step; keep a backup recording.
-4. README: scope paragraph, eval table (caveats included), AI-assistance line, "reference-matched, not community-validated; performed by a hearing student".
-5. Submission form text; submit well before 8 PM Nairobi.
+## After Phase 5 — needs from me
+1. Run locally: `node --check public/app.js public/assistant.js`, `npm test`, `node --test tests/flow.test.js tests/live.test.js` — paste any failures back. Then `vercel dev` (or `npm run dev`) and click through: language toggle both ways, Confirm/Cancel buttons, gloss-demo buttons, Replay, Kiswahili toggle with/without a Swahili voice (note which notice shows).
+2. Fill the [FILL] verification lines (Phase 4 above and Phase 5), then zip the repo (this file is inside the zip; no separate copy needed).
+3. Deploy to Vercel per `docs/deployment.md`: set MODEL_API_KEY, ALLOWED_ORIGINS (exact live URL), RATE_LIMIT_PER_MIN=10, DAILY_MODEL_CALL_CAP=300, LOG_SALT; set a Meta Spend Limit; run the test-the-live-URL checklist on the public URL.
+4. Record the video from demo-dialogue.md after 3 live runs of each step; keep a backup recording.
+5. README: scope paragraph, eval table (caveats included), AI-assistance line, "reference-matched, not community-validated; performed by a hearing student".
+6. Submission form text; submit well before 8 PM Nairobi.
