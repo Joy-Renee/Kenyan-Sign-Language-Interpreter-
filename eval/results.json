@@ -1,0 +1,553 @@
+{
+  "model": "muse-spark-1.3",
+  "stat": {
+    "firstOk": 16,
+    "finalOk": 20,
+    "mCorrect": 19,
+    "e2e": 29,
+    "bCorrect": 30,
+    "mAsk": 5,
+    "bAsk": 7
+  },
+  "rows": [
+    {
+      "gold": "send_money",
+      "signs": "me send money mother",
+      "ms": 3913,
+      "model": {
+        "intent": "send_money",
+        "english": "I want to send money to my mother.",
+        "kiswahili": "Nataka kutuma pesa kwa mama yangu.",
+        "missing_info": [
+          "amount",
+          "recipient_phone"
+        ],
+        "clarifying_question": "",
+        "confidence": 0.9
+      },
+      "usage": {
+        "input": 448,
+        "output": 293,
+        "reasoning": 235,
+        "total": 741
+      }
+    },
+    {
+      "gold": "send_money",
+      "signs": "send money mother",
+      "ms": 3718,
+      "model": {
+        "intent": "send_money",
+        "english": "I want to send money to my mother.",
+        "kiswahili": "Nataka kutuma pesa kwa mama yangu.",
+        "missing_info": [
+          "amount",
+          "recipient_phone"
+        ],
+        "clarifying_question": "",
+        "confidence": 0.9
+      },
+      "usage": {
+        "input": 447,
+        "output": 264,
+        "reasoning": 206,
+        "total": 711
+      }
+    },
+    {
+      "gold": "send_money",
+      "signs": "me give money mother",
+      "ms": 3791,
+      "model": {
+        "intent": "send_money",
+        "english": "I want to send money to my mother.",
+        "kiswahili": "Nataka kutuma pesa kwa mama yangu.",
+        "missing_info": [
+          "amount",
+          "recipient_phone"
+        ],
+        "clarifying_question": "",
+        "confidence": 0.9
+      },
+      "usage": {
+        "input": 448,
+        "output": 240,
+        "reasoning": 182,
+        "total": 688
+      }
+    },
+    {
+      "gold": "send_money",
+      "signs": "me send money",
+      "ms": 3989,
+      "model": {
+        "intent": "send_money",
+        "english": "I want to send money.",
+        "kiswahili": "Nataka kutuma pesa.",
+        "missing_info": [
+          "amount",
+          "recipient_phone",
+          "recipient"
+        ],
+        "clarifying_question": "",
+        "confidence": 0.8
+      },
+      "usage": {
+        "input": 447,
+        "output": 279,
+        "reasoning": 226,
+        "total": 726
+      }
+    },
+    {
+      "gold": "send_money",
+      "signs": "send money",
+      "ms": 8141,
+      "model": {
+        "failed": "incomplete"
+      },
+      "usage": {
+        "input": 906,
+        "output": 600,
+        "reasoning": 596,
+        "total": 1506
+      }
+    },
+    {
+      "gold": "send_money",
+      "signs": "give money mother",
+      "ms": 2107,
+      "model": {
+        "intent": "send_money",
+        "english": "I want to send money to my mother.",
+        "kiswahili": "Nataka kutuma pesa kwa mama yangu.",
+        "missing_info": [
+          "amount",
+          "recipient_phone"
+        ],
+        "clarifying_question": "",
+        "confidence": 0.9
+      },
+      "usage": {
+        "input": 447,
+        "output": 239,
+        "reasoning": 181,
+        "total": 686
+      }
+    },
+    {
+      "gold": "send_money",
+      "signs": "me money send mother",
+      "ms": 3471,
+      "model": {
+        "intent": "send_money",
+        "english": "I want to send money to my mother.",
+        "kiswahili": "Nataka kutuma pesa kwa mama yangu.",
+        "missing_info": [
+          "amount",
+          "recipient_phone"
+        ],
+        "clarifying_question": "",
+        "confidence": 0.9
+      },
+      "usage": {
+        "input": 448,
+        "output": 225,
+        "reasoning": 167,
+        "total": 673
+      }
+    },
+    {
+      "gold": "ask_fee",
+      "signs": "how_much",
+      "ms": 2623,
+      "model": {
+        "intent": "unclear",
+        "english": "",
+        "kiswahili": "",
+        "missing_info": [],
+        "clarifying_question": "Do you want to know how much something costs?",
+        "confidence": 0.3
+      },
+      "usage": {
+        "input": 447,
+        "output": 272,
+        "reasoning": 227,
+        "total": 719
+      }
+    },
+    {
+      "gold": "ask_fee",
+      "signs": "money how_much",
+      "ms": 3469,
+      "model": {
+        "intent": "ask_fee",
+        "english": "How much does it cost?",
+        "kiswahili": "Inagharimu kiasi gani?",
+        "missing_info": [],
+        "clarifying_question": "",
+        "confidence": 0.7
+      },
+      "usage": {
+        "input": 448,
+        "output": 283,
+        "reasoning": 232,
+        "total": 731
+      }
+    },
+    {
+      "gold": "ask_fee",
+      "signs": "send money how_much",
+      "ms": 7786,
+      "model": {
+        "failed": "incomplete"
+      },
+      "usage": {
+        "input": 912,
+        "output": 600,
+        "reasoning": 596,
+        "total": 1512
+      }
+    },
+    {
+      "gold": "ask_fee",
+      "signs": "me how_much",
+      "ms": 5837,
+      "model": {
+        "failed": "incomplete"
+      },
+      "usage": {
+        "input": 910,
+        "output": 600,
+        "reasoning": 585,
+        "total": 1510
+      }
+    },
+    {
+      "gold": "ask_fee",
+      "signs": "how_much money mother",
+      "ms": 6712,
+      "model": {
+        "failed": "incomplete"
+      },
+      "usage": {
+        "input": 912,
+        "output": 600,
+        "reasoning": 596,
+        "total": 1512
+      }
+    },
+    {
+      "gold": "confirm",
+      "signs": "yes",
+      "ms": 6904,
+      "model": {
+        "failed": "incomplete"
+      },
+      "usage": {
+        "input": 904,
+        "output": 600,
+        "reasoning": 596,
+        "total": 1504
+      }
+    },
+    {
+      "gold": "confirm",
+      "signs": "yes yes",
+      "ms": 2663,
+      "model": {
+        "intent": "confirm",
+        "english": "Yes.",
+        "kiswahili": "Ndiyo.",
+        "missing_info": [],
+        "clarifying_question": "",
+        "confidence": 0.9
+      },
+      "usage": {
+        "input": 446,
+        "output": 273,
+        "reasoning": 235,
+        "total": 719
+      }
+    },
+    {
+      "gold": "deny",
+      "signs": "no",
+      "ms": 5684,
+      "model": {
+        "failed": "incomplete"
+      },
+      "usage": {
+        "input": 904,
+        "output": 600,
+        "reasoning": 591,
+        "total": 1504
+      }
+    },
+    {
+      "gold": "deny",
+      "signs": "no no",
+      "ms": 5541,
+      "model": {
+        "intent": "deny",
+        "english": "No.",
+        "kiswahili": "Hapana.",
+        "missing_info": [],
+        "clarifying_question": "",
+        "confidence": 0.9
+      },
+      "usage": {
+        "input": 906,
+        "output": 581,
+        "reasoning": 534,
+        "total": 1487
+      }
+    },
+    {
+      "gold": "thank",
+      "signs": "thank_you",
+      "ms": 5722,
+      "model": {
+        "intent": "thank",
+        "english": "Thank you.",
+        "kiswahili": "Asante.",
+        "missing_info": [],
+        "clarifying_question": "",
+        "confidence": 0.9
+      },
+      "usage": {
+        "input": 908,
+        "output": 532,
+        "reasoning": 473,
+        "total": 1440
+      }
+    },
+    {
+      "gold": "thank",
+      "signs": "thank_you thank_you",
+      "ms": 1995,
+      "model": {
+        "intent": "thank",
+        "english": "Thank you.",
+        "kiswahili": "Asante.",
+        "missing_info": [],
+        "clarifying_question": "",
+        "confidence": 0.9
+      },
+      "usage": {
+        "input": 450,
+        "output": 169,
+        "reasoning": 130,
+        "total": 619
+      }
+    },
+    {
+      "gold": "thank",
+      "signs": "me thank_you",
+      "ms": 2369,
+      "model": {
+        "intent": "thank",
+        "english": "Thank you.",
+        "kiswahili": "Asante.",
+        "missing_info": [],
+        "clarifying_question": "",
+        "confidence": 0.9
+      },
+      "usage": {
+        "input": 448,
+        "output": 173,
+        "reasoning": 134,
+        "total": 621
+      }
+    },
+    {
+      "gold": "request_help",
+      "signs": "help",
+      "ms": 6911,
+      "model": {
+        "failed": "incomplete"
+      },
+      "usage": {
+        "input": 904,
+        "output": 600,
+        "reasoning": 596,
+        "total": 1504
+      }
+    },
+    {
+      "gold": "request_help",
+      "signs": "help me",
+      "ms": 5875,
+      "model": {
+        "intent": "request_help",
+        "english": "I need help.",
+        "kiswahili": "Nahitaji msaada.",
+        "missing_info": [],
+        "clarifying_question": "",
+        "confidence": 0.9
+      },
+      "usage": {
+        "input": 906,
+        "output": 534,
+        "reasoning": 487,
+        "total": 1440
+      }
+    },
+    {
+      "gold": "request_help",
+      "signs": "me help",
+      "ms": 6456,
+      "model": {
+        "failed": "incomplete"
+      },
+      "usage": {
+        "input": 906,
+        "output": 600,
+        "reasoning": 573,
+        "total": 1506
+      }
+    },
+    {
+      "gold": "request_help",
+      "signs": "help me help",
+      "ms": 3132,
+      "model": {
+        "intent": "request_help",
+        "english": "I need help.",
+        "kiswahili": "Nahitaji msaada.",
+        "missing_info": [],
+        "clarifying_question": "",
+        "confidence": 0.9
+      },
+      "usage": {
+        "input": 447,
+        "output": 291,
+        "reasoning": 246,
+        "total": 738
+      }
+    },
+    {
+      "gold": "unclear",
+      "signs": "money",
+      "ms": 3006,
+      "model": {
+        "intent": "unclear",
+        "english": "",
+        "kiswahili": "",
+        "missing_info": [],
+        "clarifying_question": "What do you want to do?",
+        "confidence": 0.2
+      },
+      "usage": {
+        "input": 445,
+        "output": 210,
+        "reasoning": 168,
+        "total": 655
+      }
+    },
+    {
+      "gold": "unclear",
+      "signs": "mother",
+      "ms": 3021,
+      "model": {
+        "intent": "unclear",
+        "english": "",
+        "kiswahili": "",
+        "missing_info": [],
+        "clarifying_question": "What do you want about your mother?",
+        "confidence": 0.2
+      },
+      "usage": {
+        "input": 445,
+        "output": 289,
+        "reasoning": 246,
+        "total": 734
+      }
+    },
+    {
+      "gold": "unclear",
+      "signs": "me",
+      "ms": 3379,
+      "model": {
+        "intent": "unclear",
+        "english": "",
+        "kiswahili": "",
+        "missing_info": [],
+        "clarifying_question": "What do you want to do?",
+        "confidence": 0.2
+      },
+      "usage": {
+        "input": 445,
+        "output": 293,
+        "reasoning": 251,
+        "total": 738
+      }
+    },
+    {
+      "gold": "unclear",
+      "signs": "send",
+      "ms": 6707,
+      "model": {
+        "intent": "unclear",
+        "english": "",
+        "kiswahili": "",
+        "missing_info": [],
+        "clarifying_question": "What do you want to send?",
+        "confidence": 0.3
+      },
+      "usage": {
+        "input": 904,
+        "output": 567,
+        "reasoning": 523,
+        "total": 1471
+      }
+    },
+    {
+      "gold": "unclear",
+      "signs": "give",
+      "ms": 6041,
+      "model": {
+        "failed": "incomplete"
+      },
+      "usage": {
+        "input": 904,
+        "output": 600,
+        "reasoning": 580,
+        "total": 1504
+      }
+    },
+    {
+      "gold": "unclear",
+      "signs": "yes no",
+      "ms": 2663,
+      "model": {
+        "intent": "unclear",
+        "english": "",
+        "kiswahili": "",
+        "missing_info": [],
+        "clarifying_question": "Do you mean yes or no?",
+        "confidence": 0.3
+      },
+      "usage": {
+        "input": 446,
+        "output": 236,
+        "reasoning": 194,
+        "total": 682
+      }
+    },
+    {
+      "gold": "unclear",
+      "signs": "mother yes",
+      "ms": 5995,
+      "model": {
+        "failed": "incomplete"
+      },
+      "usage": {
+        "input": 906,
+        "output": 600,
+        "reasoning": 596,
+        "total": 1506
+      }
+    }
+  ]
+}

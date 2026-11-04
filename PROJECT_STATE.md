@@ -1,5 +1,5 @@
 # PROJECT_STATE
-Last updated: Tue 3 Nov 2026, Nairobi (end of Phase 3; parity on real model reported OK: live loop code written and tested in sandbox; NOT yet run in a browser by me; model NOT retrained, by decision)
+Last updated: Wed 4 Nov 2026, Nairobi (end of Phase 4 code drop: items (a)-(e) written and unit-tested in sandbox WITHOUT network; nothing of Phase 4 run by me yet; (f) not built; model NOT retrained, by decision)
 Working style: concept first (max 10 lines), then build everything without more questions, end each phase with Built / Not built / Needs my action, then update this file. Don't overstate anything.
 
 ## Done (built and working)
@@ -19,8 +19,21 @@ Working style: concept first (max 10 lines), then build everything without more 
 - Live recognition quality with the real model: unknown. Default thresholds are guesses, not tuned.
 - Phase 2 and Phase 3 files may not all be committed yet: check `git status`.
 
+## Phase 4 code (written 4 Nov in sandbox; NOT run against the real API or in a browser)
+- (a) `api/_lib/understand.js` + `api/understand.js` (NEW endpoint; old `api/interpret.js` untouched): fixed prompt + 4 few-shot examples, strict JSON {intent, english, kiswahili, missing_info, clarifying_question, confidence}, validated by `parseInterpretation` (appended to `api/_lib/validate.js`), 1 retry then rule fallback, cache by sign sequence, daily cap counted per model call, JSON log line with usage. `max_output_tokens` raised to 600. Unclear input must return intent `unclear` + a question (validator rejects otherwise).
+- (b) `public/shared/flow.js`: nothing is spoken until the customer signs YES; NO cancels; a lone YES/NO while something waits is a control signal (no model call). Bare YES/NO with nothing pending is treated as a normal utterance that itself needs confirmation.
+- (c) Simulated transaction in `flow.js`: draft after YES on send_money; AGENT TYPES amount and phone (vocabulary has no numerals); customer must sign YES on the final text before status = created. UI shows "SIMULATED: no real money moves". NO tool calling is used: JSON only, transaction logic is deterministic code.
+- (d) `public/shared/intent.js` rule fallback (also the eval baseline); badge "FALLBACK MODE" + reason; latency/tokens shown in the UI and logged server-side.
+- Wiring: `public/assistant.js` + 3-line patch in `public/app.js` (import, create, `onUtterance` calls it). Browser behaviour untested; TTS is English only via speechSynthesis.
+- (e) `scripts/eval.mjs` (`npm run eval` needs the script added to package.json): 30 sequences, writes `eval/results-table.md`, `eval/results.json`, `eval/kiswahili-rating.md`. Gold labels and the baseline were written by the same AI author: baseline accuracy is NOT evidence of generalisation. Few-shot examples are disjoint from the eval sequences.
+- Tests: `node --test tests/flow.test.js` 5/5 in sandbox (validator, baseline, confirm flow, txn flow). No test touches the network.
+- Kiswahili strings in `intent.js`/prompt were written by the assistant, unreviewed.
+- demo-dialogue.md is now out of date: every utterance needs a following YES, and the amount/phone are typed by the agent.
+
 ## NOT built
-- Wiring to the proxy / Muse Spark (hook is an empty `onUtterance()` in `app.js`), text-to-speech, scenario UI, demo video, submission text.
+- (f) stretch: agent speech -> Muse Voice Transcribe -> rewrite. Not started.
+- Phase 4 items still missing: Vercel deploy, 3-min video, README eval table (needs a real `npm run eval`), submission text.
+- (superseded by the Phase 4 section above) demo video, submission text.
 - Any real Meta API call from my code (`npm run test:meta` not yet run/reported); Vercel deployment; Deaf-signer validation; Kiswahili quality check.
 - Clarifying-question / bilingual-output strengthening (not committed).
 
@@ -95,5 +108,5 @@ Leave-one-session-out on 33 clips (3 sessions x 11 classes x 1 clip). TOO SMALL 
 - Window mode, live, ME / SEND / MONEY / MOTHER: all recognised after some tries. SEND and NO were first read as YES several times, then recognised.
 - Saved live-recorded replay public/demo/replay.json (23.4 s, my own signing, landmarks only). Offline, the engine recognised all four signs in both window and segment mode. Four separate one-sign utterances because my pauses were over 2 s.
 - Bug fixed: element id "dbg" clashed with MediaPipe's internal variable; renamed to "debugbox".
-- test:parity: # fail 0 (reported earlier). test:meta result: test:meta.
+- test:parity: # fail 0 (reported earlier). test:meta (my run, 4 Nov): OK. Call 1 muse-spark-1.3 6396 ms, 270 tokens (237 reasoning) for a trivial question. Call 2 (sentence prompt, effort minimal) 3234 ms, valid JSON, 408 tokens (118 reasoning). Reasoning tokens stay high even at "minimal"; one call is about 3 s.
 - Still true: one hearing signer, 33 training clips, signs unverified. No accuracy claim.

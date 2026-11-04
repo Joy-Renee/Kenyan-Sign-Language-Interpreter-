@@ -6,6 +6,7 @@ import { HandLandmarker, PoseLandmarker, FilesetResolver }
 import { VOCAB_INFO } from "./shared/vocab.js";
 import { loadModel } from "./shared/classifier.js";
 import { LiveEngine, DEFAULT_CONFIG, CONFIG_FIELDS } from "./shared/live.js";
+import { createAssistant } from "./assistant.js";
 
 const VERSION = "0.10.14";
 const WASM = `https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@${VERSION}/wasm`;
@@ -82,13 +83,14 @@ function handleEvent(type, p) {
     const words = p.signs.map(word);
     history.unshift({ words, endT: p.endT, mode });
     history = history.slice(0, 6);
-    $("sentence").textContent = `Signs: ${words.map((w) => w.toUpperCase()).join(" + ")}. (Sentence step via Muse Spark: not connected yet.)`;
+    $("sentence").textContent = `Signs: ${words.map((w) => w.toUpperCase()).join(" + ")}.`;
     $("history").innerHTML = history.map((h) => `<li>${h.words.join(" · ")} <small>(${h.mode})</small></li>`).join("");
     onUtterance(p.items);
   }
 }
 // Hook for the next phase: call the proxy with p.signs here, then show the sentence and speak it.
-function onUtterance(/* items */) {}
+const assistant = createAssistant({ after: document.getElementById("sentence") });
+function onUtterance(items) { assistant.onUtterance(items.map((i) => i.label)); }
 
 // ---------- drawing ----------
 function drawFrame(frame, bg) {

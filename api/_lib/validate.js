@@ -33,3 +33,24 @@ export function parseModelOutput(text, lang) {
   }
   return out;
 }
+
+// ---- Phase 4: strict interpretation JSON {intent, english, kiswahili, missing_info, clarifying_question, confidence}
+import { INTENTS, MISSING } from '../../public/shared/intent.js';
+
+export function parseInterpretation(text) {
+  if (typeof text !== 'string') return null;
+  const m = text.match(/\{[\s\S]*\}/);
+  if (!m) return null;
+  let o;
+  try { o = JSON.parse(m[0]); } catch { return null; }
+  if (!o || typeof o !== 'object') return null;
+  const s = (v) => (typeof v === 'string' ? v.trim() : null);
+  const en = s(o.english), sw = s(o.kiswahili), cq = s(o.clarifying_question);
+  if (!INTENTS.includes(o.intent)) return null;
+  if (en === null || sw === null || cq === null || en.length > 200 || sw.length > 200 || cq.length > 200) return null;
+  if (!Array.isArray(o.missing_info) || !o.missing_info.every((x) => MISSING.includes(x))) return null;
+  if (typeof o.confidence !== 'number' || !(o.confidence >= 0 && o.confidence <= 1)) return null;
+  if (o.intent === 'unclear') { if (!cq) return null; } // ambiguous input must ask, not guess
+  else if (!en || !sw) return null;
+  return { intent: o.intent, english: en, kiswahili: sw, missing_info: [...new Set(o.missing_info)], clarifying_question: cq, confidence: o.confidence };
+}
