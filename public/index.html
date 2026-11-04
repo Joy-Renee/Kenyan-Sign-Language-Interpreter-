@@ -3,28 +3,92 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>KSL assistant (Phase 0 skeleton)</title>
+<title>KSL assistant (live)</title>
 <style>
-  :root { color-scheme: light dark; font-family: system-ui, sans-serif; }
-  body { max-width: 40rem; margin: 2rem auto; padding: 0 1rem; line-height: 1.5; }
-  pre { padding: .75rem; overflow-x: auto; border: 1px solid #8884; border-radius: 6px; }
+  :root { color-scheme: light dark; font-family: system-ui, sans-serif; --mut: #8889; }
+  body { margin: 0; padding: 12px; max-width: 1150px; margin-inline: auto; }
+  h1 { font-size: 1.15rem; margin: 0 0 4px; }
+  .sub { font-size: .8rem; opacity: .8; margin-bottom: 10px; }
+  .row { display: flex; gap: 16px; flex-wrap: wrap; align-items: flex-start; }
+  .cam { position: relative; width: 520px; max-width: 100%; }
+  canvas { width: 100%; display: block; transform: scaleX(-1); background: #111; border-radius: 6px; }
+  #badge { position: absolute; left: 8px; top: 8px; padding: 2px 8px; border-radius: 4px; font-size: .75rem; font-weight: 700; background: #16a34a; color: #fff; }
+  #badge.replay { background: #d97706; }
+  #badge.off { background: #6b7280; }
+  .panel { flex: 1; min-width: 300px; }
+  #status { font-size: .85rem; min-height: 1.3em; margin: 6px 0; font-weight: 600; }
+  .big { font-size: 2.2rem; font-weight: 800; min-height: 2.8rem; line-height: 1.2; }
+  .big small { font-size: .9rem; font-weight: 500; opacity: .75; margin-left: 8px; }
+  .bar { height: 8px; background: var(--mut); border-radius: 4px; overflow: hidden; margin: 4px 0 10px; }
+  .bar > div { height: 100%; width: 0; background: #3b82f6; transition: width .08s; }
+  .chips { display: flex; gap: 6px; flex-wrap: wrap; min-height: 2rem; margin: 4px 0 10px; }
+  .chip { padding: 4px 10px; border-radius: 14px; background: #3b82f633; border: 1px solid #3b82f6; font-weight: 700; font-size: .95rem; }
+  h2 { font-size: .85rem; margin: 10px 0 2px; text-transform: uppercase; letter-spacing: .04em; opacity: .75; }
+  #sentence { border: 1px dashed var(--mut); border-radius: 6px; padding: 8px; font-size: .9rem; min-height: 2.4em; }
+  #history { font-size: .85rem; margin: 4px 0 0; padding-left: 18px; }
+  button { padding: 7px 11px; margin: 4px 6px 0 0; }
+  button.rec { background: #dc2626; color: #fff; }
+  details { margin-top: 12px; border-top: 1px solid var(--mut); padding-top: 6px; }
+  summary { cursor: pointer; font-weight: 700; font-size: .9rem; }
+  .cfg { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 6px 14px; margin-top: 8px; }
+  .cfg label { font-size: .78rem; display: block; }
+  .cfg input, .cfg select { width: 100%; box-sizing: border-box; padding: 4px; }
+  .cfg .h { font-size: .68rem; opacity: .65; }
+  pre#debugbox { font-size: .78rem; line-height: 1.35; margin: 6px 0 0; white-space: pre-wrap; }
+  .warn { font-size: .78rem; opacity: .85; margin-top: 10px; }
+  input[type=text] { padding: 5px; width: 260px; max-width: 100%; }
 </style>
 </head>
 <body>
-<h1>KSL assistant</h1>
-<p><strong>Phase 0 skeleton.</strong> The camera and sign recognition are not built yet. This page only checks that the proxy is reachable.</p>
-<button id="t">Test proxy with "me send money mother"</button>
-<pre id="out">(no request sent yet)</pre>
-<script type="module">
-  document.getElementById('t').onclick = async () => {
-    const out = document.getElementById('out');
-    out.textContent = 'sending...';
-    try {
-      const r = await fetch('/api/interpret', { method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ signs: ['me', 'send', 'money', 'mother'], lang: 'both' }) });
-      out.textContent = JSON.stringify(await r.json(), null, 2);
-    } catch (e) { out.textContent = 'request failed: ' + e.message; }
-  };
-</script>
+<h1>KSL assistant: live recognition <small>(Phase 3: loop only)</small></h1>
+<div class="sub">Landmarks only; no video leaves the browser. Signs are reference-matched and unverified by a Deaf signer; model trained on one hearing signer's 33 clips.</div>
+<div class="row">
+  <div class="cam">
+    <canvas id="view" width="640" height="480"></canvas>
+    <div id="badge" class="off">STARTING…</div>
+  </div>
+  <div class="panel">
+    <div id="status">Loading…</div>
+    <h2>Current sign</h2>
+    <div class="big" id="cur">–</div>
+    <div class="bar"><div id="confbar"></div></div>
+    <h2>Sequence (utterance in progress)</h2>
+    <div class="chips" id="seq"></div>
+    <h2>Last completed utterance</h2>
+    <div id="sentence">Nothing yet. (The sentence step via Meta Muse Spark is NOT connected in this phase.)</div>
+    <ol id="history"></ol>
+    <h2>Replay (camera fallback)</h2>
+    <div>
+      <button id="replayBtn">Replay recorded sequence</button>
+      <button id="stopReplay">Stop replay</button>
+      <button id="recBtn">Record live stream for replay</button>
+      <button id="dlStream">Download replay file</button>
+    </div>
+    <div style="margin-top:6px;font-size:.8rem">
+      Load a replay file (stream .json, or a collector session .json):
+      <input type="file" id="file" accept=".json,application/json">
+    </div>
+    <div style="margin-top:4px;font-size:.8rem">
+      Script when loading a session file (<code>,</code> between signs, <code>;</code> between utterances):
+      <input type="text" id="script" value="me,send,money,mother">
+    </div>
+    <div id="replayInfo" style="font-size:.78rem;opacity:.85;margin-top:4px">No replay loaded.</div>
+  </div>
+</div>
+
+<details open>
+  <summary>Debug</summary>
+  <pre id="debugbox"></pre>
+</details>
+<details>
+  <summary>Thresholds (applied live, saved in this browser)</summary>
+  <div class="cfg" id="cfg"></div>
+  <button id="cfgReset">Reset to defaults</button>
+</details>
+<p class="warn">
+  Replaying recorded training clips only shows that the loop and UI work; it is not a recognition-accuracy test
+  (the model has seen those clips). A replay of a sequence you recorded live is a fairer fallback.
+</p>
+<script type="module" src="./app.js"></script>
 </body>
 </html>
